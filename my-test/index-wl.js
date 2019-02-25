@@ -1,29 +1,27 @@
-const data = require('./train1.json')
+const data = require('./train2.json')
 const dt = require('./decision-tree.js')
-const test = require('./test1.json')
+const test = require('./test2.json')
+const sr = require('./serialize.js')
 
 // Configuration
 var config = {
     trainingSet: data,
-    categoryAttr: 'label',
-    ignoredAttributes: []
+    categoryAttr: 'win',
+    ignoredAttributes: ['label','f1']
 };
 
 // Building Decision Tree
 var decisionTree = new dt.DecisionTree(config);
 
-console.log(decisionTree)
-
-
-// let count = 0, cc = 0, wc = 0
-// test.forEach(t => {
-//   let isCorrect = false
-//   let r = decisionTree.predict(t)
-//   count++
-//   if (r == t.label) { cc++; isCorrect = true }
-//   else wc++
-//   console.log(`count: ${count}, t: ${r}, o: ${t.label}, ac: ${(cc*100/count).toFixed(1)} ic: ${(isCorrect)?"Correct":"Wrong"}`)
-// })
+let count = 0, cc = 0, wc = 0
+test.forEach(t => {
+  let isCorrect = false
+  let r = decisionTree.predict(t)
+  count++
+  if (r == t.win) { cc++; isCorrect = true }
+  else wc++
+  console.log(`count: ${count}, t: ${r}, o: ${t.win}, ac: ${(cc*100/count).toFixed(1)} ic: ${(isCorrect)?"Correct":"Wrong"}`)
+})
 
 
 
